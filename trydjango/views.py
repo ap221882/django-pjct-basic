@@ -17,8 +17,15 @@ def home_view(request):
     name = "Ajay"
 
     article_obj = Article.objects.get(id=random_id)
-    
+    article_queryset = Article.objects.all()
+    # my_list = article_list
+    # print(article_list )
+    # my_list = [102,13,342,1331,213]
+    # my_list_str = ""
+    # for x in my_list:
+    #     my_list_str+= f"<li>number is {x}</li>\n"
     context = {
+        "object_list":article_queryset,
         "object":article_obj,
         "title":article_obj.title,
         "id":article_obj.id,
