@@ -3,17 +3,11 @@
 {% block content %}
 
 {% if not created %}
+
 <div style="margin-top: 4rem;">
     <form action="/articles/create/" method="post">
-        <div style="margin-bottom: 0.5rem;">
-            <input type="text" name='title' placeholder="Enter title here">
-        </div>
         {% csrf_token %}
-        <br>
-        <div style="margin-bottom: 2px;">
-            <textarea name="content" placeholder="content"></textarea>
-        </div>
-        <br>
+        {{form.as_p}}
         <button type="submit">Create article</button>
     </form>
 </div>

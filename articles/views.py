@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import query
 from django.shortcuts import redirect, render
+
+from .forms import ArticleForm
 from .models import Article
 
 # Create your views here.
@@ -16,21 +18,36 @@ def article_detail_view(request, id=None):
 # @csrf_exempt
 @login_required
 def article_create_view(request, id=None):
-    # if not request.user.is_authenticated:
-        # return redirect('/login') ##this can be done to create alogin view
-    
-    context = {}
-    if request.method == 'POST':
-        # print(request.POST)
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        print(title,content)
+    form = ArticleForm(request.POST or None)
+    context = {
+        "form":form
+    }
+    if form.is_valid(): #to ensure all of the form data is clean
+        title = form.cleaned_data.get('title')
+        content = form.cleaned_data.get('content')
         article_object = Article.objects.create(title=title,content=content)
         context['object'] = article_object
-        # context['title'] = title
-        # context['content'] = content
         context['created'] = True
     return render(request, "articles/create.html", context=context)
+# def article_create_view(request, id=None):
+#     #render the form{get method}
+#     form = ArticleForm()
+#     # print(dir(form))
+#     context = {
+#         "form":form
+#     }
+#     #post method needs to consume the data
+#     if request.method == 'POST':
+#         form = ArticleForm(request.POST)
+#         context['form'] = form
+#         if form.is_valid(): #to ensure all of the form data is clean
+#             title = form.cleaned_data.get('title')
+#             content = form.cleaned_data.get('content')
+#             # print(title,content)
+#             article_object = Article.objects.create(title=title,content=content)
+#             context['object'] = article_object
+#             context['created'] = True
+#     return render(request, "articles/create.html", context=context)
 
 
 def article_search_view(request):
