@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import query
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Article
 
 # Create your views here.
@@ -13,7 +14,11 @@ def article_detail_view(request, id=None):
     return render(request, "articles/detail.html", context=context) #request is used afterwards in templates
 
 # @csrf_exempt
+@login_required
 def article_create_view(request, id=None):
+    # if not request.user.is_authenticated:
+        # return redirect('/login') ##this can be done to create alogin view
+    
     context = {}
     if request.method == 'POST':
         # print(request.POST)

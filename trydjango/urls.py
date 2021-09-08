@@ -23,7 +23,10 @@ from articles.views import (
     article_detail_view
 )
 
-from accounts.views import login_view
+from accounts.views import (
+    login_view,
+    logout_view
+)
 
 
 urlpatterns = [
@@ -32,6 +35,7 @@ urlpatterns = [
     path("articles/create/", article_create_view),
     path("articles/<int:id>/", article_detail_view),
     path('admin/', admin.site.urls),
-    path('login/',login_view)
+    path('login/',login_view),
+    path('logout/',logout_view)
     # re_path(r'articles/(?P<id>\d+)/$',home_view)
 ]
