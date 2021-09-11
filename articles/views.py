@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import query
+from django.http import request
 from django.shortcuts import redirect, render
 
 from .forms import ArticleForm
@@ -23,11 +24,13 @@ def article_create_view(request, id=None):
         "form":form
     }
     if form.is_valid(): #to ensure all of the form data is clean
-        title = form.cleaned_data.get('title')
-        content = form.cleaned_data.get('content')
-        article_object = Article.objects.create(title=title,content=content)
-        context['object'] = article_object
-        context['created'] = True
+        obj = form.save()
+        context['form'] = ArticleForm()
+        # title = form.cleaned_data.get('title')
+        # content = form.cleaned_data.get('content')
+        # article_object = Article.objects.create(title=title,content=content)
+        # context['object'] = obj
+        # context['created'] = True
     return render(request, "articles/create.html", context=context)
 # def article_create_view(request, id=None):
 #     #render the form{get method}
